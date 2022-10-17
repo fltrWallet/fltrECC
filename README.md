@@ -1,5 +1,5 @@
 # fltrECC
-Swift wrapper for Bitcoin Core libsecp256k1
+Swift wrapper for Bitcoin Core secp256k1 or libsecp256k1
 
 ## Using
 Add a reference to your `Package.swift` file under
