@@ -7,7 +7,8 @@ Add a reference to your `Package.swift` file under
         ...
         .package(url: "https://github.com/fltrWallet/fltrECC", .branch("main")),
         ...
-    ],```
+    ],
+```
 
 
 ## Scalar and Point
