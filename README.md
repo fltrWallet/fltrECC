@@ -44,4 +44,6 @@ import fltrECC
 import fltrECCTesting
 
 let scalar: Scalar = 12
-let publicKey = X.PublicKey(15)```
+let publicKey = X.PublicKey(15)
+```
+This would be highly dangerous in proper code but very useful in unit tests where the added expressivity makes for easier to read tests.
