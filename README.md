@@ -47,3 +47,6 @@ let scalar: Scalar = 12
 let publicKey = X.PublicKey(15)
 ```
 This would be highly dangerous in proper code but very useful in unit tests where the added expressivity makes for easier to read tests.
+
+## fltrECCAdapter
+This is the lowest level module that can be imported if you only want assistance in wrapping the `libsecp256k1` library. It lives under the `C` namespaces such as `C.negate(into: scalar)`. 
