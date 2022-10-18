@@ -1,8 +1,11 @@
 # fltrECC
 Swift wrapper for Bitcoin Core secp256k1 or libsecp256k1
 
+## fltrWallet
+This package is used for elliptic curve encryption in [fltrWallet](https://apps.apple.com/us/app/fltrwallet/id1620857882) for Apple devices.
+
 ## Using
-Add a reference to your `Package.swift` file under
+Swift Package Manager (SPM) is supported. Add a reference to your `Package.swift` file under
 ```swift
 dependencies: [
     ...
