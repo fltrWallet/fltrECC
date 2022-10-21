@@ -49,7 +49,6 @@ if enableModuleSchnorrsig {
 
 let package = Package(
     name: "fltrECC",
-    platforms: [ .iOS(.v13), .macOS(.v10_15) ],
     products: [
         .library(name: "fltrECC",
                  targets: ["fltrECC"]),
