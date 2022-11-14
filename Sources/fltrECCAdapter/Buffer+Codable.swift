@@ -6,7 +6,6 @@
 // Licensed under Apache License v2.0
 //
 // See LICENSE.md for license information
-// See CONTRIBUTORS.txt for the list of SwiftNIO project authors
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -25,6 +24,10 @@ public struct CodableBuffer {
 }
 
 extension CodableBuffer: ReadableBufferProtocol {
+    public enum CodingKeys: String, CodingKey {
+        case data
+    }
+    
     public static func create(capacity: Int, initializingWith callback: (inout UnsafeMutableRawBufferPointer, inout Int) throws -> Void) rethrows -> CodableBuffer {
         let buffer = Buffer._create(capacity: capacity)
         try buffer.withUnsafeMutablePointerToElements { bytes in
@@ -64,9 +67,9 @@ extension CodableBuffer: Equatable {
 extension CodableBuffer: Encodable {
     @inlinable
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
+        var container = encoder.container(keyedBy: CodingKeys.self)
         try self.withUnsafeMutableBytes { bytes in
-            try container.encode(Data(bytesNoCopy: bytes.baseAddress!, count: self.count, deallocator: .none))
+            try container.encode(Data(bytesNoCopy: bytes.baseAddress!, count: self.count, deallocator: .none), forKey: .data)
         }
     }
 }
@@ -74,8 +77,8 @@ extension CodableBuffer: Encodable {
 extension CodableBuffer: Decodable {
     @inlinable
     public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let data = try container.decode(Data.self)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        var data = try container.decode(Data.self, forKey: .data)
         let buffer = Buffer._create(capacity: data.count)
         buffer.withUnsafeMutablePointerToElements { buffer in
             data.withUnsafeBytes { data in
@@ -86,6 +89,11 @@ extension CodableBuffer: Decodable {
             }
         }
         buffer.header.count = data.count
+        data.withUnsafeMutableBytes { data in
+            data.enumerated().forEach { i, _ in
+                data[i] = 0
+            }
+        }
         self.init(_buffer: buffer)
     }
 }

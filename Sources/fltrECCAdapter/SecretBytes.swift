@@ -6,7 +6,6 @@
 // Licensed under Apache License v2.0
 //
 // See LICENSE.md for license information
-// See CONTRIBUTORS.txt for the list of SwiftNIO project authors
 //
 // SPDX-License-Identifier: Apache-2.0
 //
@@ -66,25 +65,5 @@ public extension SecretBytes {
     init(unsafeUninitializedCapacity: Int, initializingWith callback: (inout UnsafeMutableRawBufferPointer, inout Int) throws -> Void) rethrows {
         let buffer = try BufferType.create(capacity: unsafeUninitializedCapacity, initializingWith: callback)
         self.init(buffer)!
-        
-//        let buffer = Buffer.create(capacity: unsafeUninitializedCapacity)
-//        try buffer.withUnsafeMutablePointerToElements { bytes in
-//            var mutable = UnsafeMutableRawBufferPointer(start: bytes, count: unsafeUninitializedCapacity)
-//            var initializedCount = 0
-//            try callback(&mutable, &initializedCount)
-//            buffer.header.count = initializedCount
-//        }
-//        self.init(buffer as! BufferType)!
     }
 }
-
-extension SecretBytes where BufferType: Codable {
-    public func encode(to encoder: Encoder) throws {
-        try self.buffer.encode(to: encoder)
-    }
-    
-    init(from decoder: Decoder) throws {
-        self.init(try BufferType(from: decoder))!
-    }
-}
-
